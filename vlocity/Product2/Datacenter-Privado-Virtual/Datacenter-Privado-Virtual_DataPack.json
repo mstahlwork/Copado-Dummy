@@ -36,10 +36,10 @@
     "Description": "",
     "DisplayUrl": "",
     "ExternalDataSourceId": "",
-    "ExternalId": "2358",
+    "ExternalId": "2019",
     "Family": "Datacenter",
     "IsActive": true,
-    "Name": "Datacenter Privado Virtual$",
+    "Name": "Datacenter Privado Virtual",
     "NumberOfQuantityInstallments": "",
     "NumberOfRevenueInstallments": "",
     "PricebookEntry": "Datacenter-Privado-Virtual_StandardPricebookEntry.json",
@@ -54,5 +54,5 @@
     "SCP_Certa_GC__productoGeneradoPorDelta__c": true,
     "VlocityDataPackType": "SObject",
     "VlocityRecordSObjectType": "Product2",
-    "VlocityRecordSourceKey": "VlocityRecordSourceKey:01t410000048QF7AAM"
+    "VlocityRecordSourceKey": "VlocityRecordSourceKey:01t410000048QFxAAM"
 }
