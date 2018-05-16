@@ -41,16 +41,6 @@
         <relationshipLabel><!-- AuxiliaryObjects --></relationshipLabel>
     </fields>
     <fields>
-        <label><!-- Promotion --></label>
-        <name>copado__Promotion__c</name>
-        <relationshipLabel><!-- AuxiliaryObjects --></relationshipLabel>
-    </fields>
-    <fields>
-        <label><!-- Release --></label>
-        <name>copado__Release__c</name>
-        <relationshipLabel><!-- AuxiliaryObjects --></relationshipLabel>
-    </fields>
-    <fields>
         <label><!-- Selenium Test Group --></label>
         <name>copado__Selenium_Test_Group__c</name>
         <relationshipLabel><!-- AuxiliaryObjects --></relationshipLabel>

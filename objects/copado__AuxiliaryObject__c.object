@@ -160,32 +160,6 @@
         <type>Lookup</type>
     </fields>
     <fields>
-        <fullName>copado__Promotion__c</fullName>
-        <deleteConstraint>SetNull</deleteConstraint>
-        <deprecated>false</deprecated>
-        <externalId>false</externalId>
-        <label>Promotion</label>
-        <referenceTo>copado__Promotion__c</referenceTo>
-        <relationshipLabel>AuxiliaryObjects</relationshipLabel>
-        <relationshipName>AuxiliaryObjects</relationshipName>
-        <required>false</required>
-        <trackTrending>false</trackTrending>
-        <type>Lookup</type>
-    </fields>
-    <fields>
-        <fullName>copado__Release__c</fullName>
-        <deleteConstraint>SetNull</deleteConstraint>
-        <deprecated>false</deprecated>
-        <externalId>false</externalId>
-        <label>Release</label>
-        <referenceTo>copado__Release__c</referenceTo>
-        <relationshipLabel>AuxiliaryObjects</relationshipLabel>
-        <relationshipName>AuxiliaryObjects</relationshipName>
-        <required>false</required>
-        <trackTrending>false</trackTrending>
-        <type>Lookup</type>
-    </fields>
-    <fields>
         <fullName>copado__Selenium_Test_Group__c</fullName>
         <deleteConstraint>SetNull</deleteConstraint>
         <deprecated>false</deprecated>

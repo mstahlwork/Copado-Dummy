@@ -9,15 +9,14 @@ var USselectedMetadata = USselectedMetadata || {};
     app.metadataArray = [];
     app.deletions = [];
     app.gitSelections = [];
-    app.testClassSelections = [];
-    app.dataArray = [];
+    app.dataArray = [];                
     app.maxretries = 30;
     app.retries = 0;
 
     /**
      * Load Git Metadata
      * @param  {[type]} [description]
-     * @return {[type]} nothing
+     * @return {[type]} nothing   
      */
     app.getGitMetadata = function(){
         var url = "Select Id, __NAMESPACE__Snapshot_Commit__c, __NAMESPACE__Snapshot_Commit__r.__NAMESPACE__Git_Backup__r.__NAMESPACE__Branch__c, __NAMESPACE__Snapshot_Commit__r.__NAMESPACE__Git_Backup__r.__NAMESPACE__Git_Repository__c from __NAMESPACE__User_Story_Commit__c where __NAMESPACE__User_Story__c='"+app.conf.data.userStoryId+"' limit 1";
@@ -45,7 +44,7 @@ var USselectedMetadata = USselectedMetadata || {};
         setLockScreenMessage(copadoLabels.loading);
         var me = app;
         if((typeof(repoId)!=="undefined" && repoId!==null)&&(typeof(branch)!=="undefined" && branch!==null)){
-            lockScreen();
+            lockScreen();                       
             console.log('Calling Copado to get Git Metadata ');
             var url =  app.conf.server.USgitMetadataUrl.replace('__USERSTORYID__', app.conf.data.userStoryId).replace('__repoId__', repoId).replace('__branch__', branch);
             utilsV2.onFailureCB = function(obj){
@@ -87,7 +86,7 @@ var USselectedMetadata = USselectedMetadata || {};
         }
     },
     app.getAttachments = function(){
-        var fileNames = ['Delete MetaData', 'Git MetaData', 'MetaData', 'Git Deletion', 'Test Classes'];
+        var fileNames = ['Delete MetaData', 'Git MetaData', 'MetaData'];
         var results = [];
         var counter = fileNames.length;
         for(var i=0; i<fileNames.length; i++){
@@ -99,10 +98,8 @@ var USselectedMetadata = USselectedMetadata || {};
                         var b = Base64.decode(records[0].Body);
                         var obj = JSON.parse(b);
                         if(fn=='Delete MetaData')app.deletions = obj;
-                        if(fn=='Git Deletion')app.deletions = obj;
                         if(fn=='Git MetaData')app.gitSelections = obj;
                         if(fn=='MetaData')app.metadataArray = obj;
-                        if(fn=='Test Classes')app.testClassSelections = obj;
                     }
                     else{
                         console.log('Attachment not found:',app.conf.data.userStoryId, records[0].Name);
@@ -122,7 +119,7 @@ var USselectedMetadata = USselectedMetadata || {};
         }
     },
     /**
-     * Helper to find element in array
+     * Helper to find element in array 
      * Because IE doesnt support indexOf in Array
      * @param  {[type]} arr [description]
      * @param  {[type]} val [description]
@@ -134,25 +131,24 @@ var USselectedMetadata = USselectedMetadata || {};
     app.createDataArrayRow = function(obj, type){
         var row = [];
         if(obj){
-            var ms = ((type=='metadataSelection'||obj.s) && type !== 'testClasses')?true:false;
+            var ms = (type=='metadataSelection'||obj.s)?true:false;
             var gs = (type=='gitSelection')?true:false;
             var gd = (type=='gitDeletion')?true:false;
-            var to = (type === 'testClasses')?true:false;
-            var t = (obj.t)?obj.t:(type === 'testClasses')?'ApexClass':'';
+            var t = (obj.t)?obj.t:'';
             var n = (obj.n)?obj.n:'';
             var b = (obj.b)?obj.b:'';
             var d = (obj.d)?obj.d:'';
             var cb = (obj.cb)?obj.cb:'';
             var cd = (obj.cd)?obj.cd:'';
-            var row = {'ms':ms, 'gs':gs, 'gd':gd, 'to':to, 't':t, 'n':n, 'b':b, 'd':d, 'cb':cb, 'cd':cd};
+            var row = {'ms':ms, 'gs':gs, 'gd':gd, 't':t, 'n':n, 'b':b, 'd':d, 'cb':cb, 'cd':cd};
         }
         return row;
     },
-
+    
     /*
      * start grid
      * @param {[Array]} data    the data array to be loaded
-     * @return {[type]}         [description]
+     * @return {[type]}         [description] 
     */
     app.startGrid = function(data){
         var theme = 'base',
@@ -163,14 +159,13 @@ var USselectedMetadata = USselectedMetadata || {};
                 data[rowid] = rowdata;
             }
         };
-
+        
         source_meta = {
             localdata: data,
             datafields: [
                 { name: 'ms', type: 'bool' },
                 { name: 'gs', type: 'bool' },
                 { name: 'gd', type: 'bool' },
-                { name: 'to', type: 'bool' },
                 { name: 't', type: 'string' },
                 { name: 'n', type: 'string' },
                 { name: 'b', type: 'string' },
@@ -184,12 +179,12 @@ var USselectedMetadata = USselectedMetadata || {};
                 data[rowid] = rowdata;
             }
         };
-
+        
         var metadatagrid = $copado('#jqxgrid_metadata');
 
         var height = utilsV2.getUrlParameter('height');
         height = (height)?height:300;
-
+    
         var pageSize = utilsV2.getUrlParameter('pageSize');
         pageSize = (pageSize)?parseInt(pageSize):50;
 
@@ -205,7 +200,7 @@ var USselectedMetadata = USselectedMetadata || {};
             showfilterrow: true,
             filterable: true,
             theme: theme,
-            editable: false,
+            editable: false, 
             selectionmode: 'none',
             enablebrowserselection: true,
             pageable: true,
@@ -218,7 +213,6 @@ var USselectedMetadata = USselectedMetadata || {};
                 {text: copadoLabels.STEP_TYPE_METADATA, columntype:'checkbox', filtertype:'bool', datafield:'ms', width:80},
                 {text: copadoLabels.GIT_UPSERTS, columntype:'checkbox', filtertype:'bool', datafield:'gs', width:80},
                 {text: copadoLabels.GIT_DELETIONS, columntype:'checkbox', filtertype:'bool', datafield:'gd', width:80},
-                {text: 'Test Only', columntype:'checkbox', filtertype:'bool', datafield:'to', width:80},
                 {text: copadoLabels.name, filtertype:'textbox', filtercondition: 'contains', editable:false, datafield:'n'},
                 {text: copadoLabels.type, datafield:'t', filtertype:'checkedlist', editable:false, columntype:'textbox'},
                 {text: copadoLabels.LastModifiedById, filtertype:'checkedlist', editable:false, datafield:'b', width:150},
@@ -234,7 +228,7 @@ var USselectedMetadata = USselectedMetadata || {};
     /*
      * Deduplicate data arrays and load grid when done.
      * param {[type]}           [description]
-     * @return {[type]}         [description]
+     * @return {[type]}         [description] 
     */
     app.dedupeDataArrays = function(){
         setLockScreenMessage('Merging grid data...');
@@ -268,17 +262,7 @@ var USselectedMetadata = USselectedMetadata || {};
                 tmp_git_names.push(app.gitSelections[k].n+app.gitSelections[k].t);
             }
         }
-
-        if(app.testClassSelections.length>0){
-            for(var k in app.testClassSelections){
-                console.log('testclass pace keydic',keyDictionary);
-                console.log('testclass pace key',app.testClassSelections[k].n+app.testClassSelections[k].t);
-                if(app.valueInArray(keyDictionary, app.testClassSelections[k].n+'ApexClass')==false){
-                    app.dataArray.push(app.createDataArrayRow(app.testClassSelections[k], 'testClasses'));
-                }
-            }
-        }
-
+        
         setLockScreenMessage('Finalising grid data...');
         for(var i=0; i<app.dataArray.length; i++){
             var key = app.dataArray[i].n+app.dataArray[i].t;

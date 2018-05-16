@@ -97,15 +97,6 @@
         <type>Checkbox</type>
     </fields>
     <fields>
-        <fullName>copado__Show_Copado_Tips__c</fullName>
-        <defaultValue>true</defaultValue>
-        <deprecated>false</deprecated>
-        <externalId>false</externalId>
-        <label>Show Copado Tips</label>
-        <trackFeedHistory>false</trackFeedHistory>
-        <type>Checkbox</type>
-    </fields>
-    <fields>
         <fullName>copado__Work_Manager_Panels__c</fullName>
         <deprecated>false</deprecated>
         <description>JSON containing current user panels on the Backlog</description>

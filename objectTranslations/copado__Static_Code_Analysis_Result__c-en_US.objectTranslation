@@ -5,17 +5,17 @@
         <name>copado__Details__c</name>
     </fields>
     <fields>
-        <label><!-- Number of Violations --></label>
-        <name>copado__Number_of_Violations__c</name>
-    </fields>
-    <fields>
         <label><!-- Org Credential --></label>
         <name>copado__Org_Credential__c</name>
         <relationshipLabel><!-- Static Code Analysis Results --></relationshipLabel>
     </fields>
     <fields>
+        <label><!-- Rules Violated --></label>
+        <name>copado__Rules_Violated__c</name>
+    </fields>
+    <fields>
         <label><!-- Score --></label>
-        <name>copado__Score_v11__c</name>
+        <name>copado__Score__c</name>
     </fields>
     <fields>
         <label><!-- User Story --></label>

@@ -57,6 +57,7 @@
     <externalSharingModel>ReadWrite</externalSharingModel>
     <fields>
         <fullName>copado__Details__c</fullName>
+        <defaultValue>&apos;For details please click on the Static Code Analysis Result Summary button.&apos;</defaultValue>
         <deprecated>false</deprecated>
         <externalId>false</externalId>
         <label>Details</label>
@@ -65,18 +66,6 @@
         <trackTrending>false</trackTrending>
         <type>LongTextArea</type>
         <visibleLines>2</visibleLines>
-    </fields>
-    <fields>
-        <fullName>copado__Number_of_Violations__c</fullName>
-        <deprecated>false</deprecated>
-        <description>Overall number of rule violations.</description>
-        <externalId>false</externalId>
-        <label>Number of Violations</label>
-        <summaryForeignKey>copado__Static_Code_Analysis_Violation__c.copado__Static_Code_Analysis_Result__c</summaryForeignKey>
-        <summaryOperation>count</summaryOperation>
-        <trackHistory>false</trackHistory>
-        <trackTrending>false</trackTrending>
-        <type>Summary</type>
     </fields>
     <fields>
         <fullName>copado__Org_Credential__c</fullName>
@@ -93,17 +82,30 @@
         <type>Lookup</type>
     </fields>
     <fields>
-        <fullName>copado__Score_v11__c</fullName>
+        <fullName>copado__Rules_Violated__c</fullName>
         <deprecated>false</deprecated>
-        <description>New v11 version of the Score field.</description>
         <externalId>false</externalId>
-        <label>Score</label>
-        <summarizedField>copado__Static_Code_Analysis_Violation__c.copado__Score__c</summarizedField>
-        <summaryForeignKey>copado__Static_Code_Analysis_Violation__c.copado__Static_Code_Analysis_Result__c</summaryForeignKey>
-        <summaryOperation>sum</summaryOperation>
+        <label>Rules Violated</label>
+        <precision>18</precision>
+        <required>false</required>
+        <scale>0</scale>
         <trackHistory>false</trackHistory>
         <trackTrending>false</trackTrending>
-        <type>Summary</type>
+        <type>Number</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>copado__Score__c</fullName>
+        <deprecated>false</deprecated>
+        <externalId>false</externalId>
+        <label>Score</label>
+        <precision>18</precision>
+        <required>false</required>
+        <scale>0</scale>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Number</type>
+        <unique>false</unique>
     </fields>
     <fields>
         <fullName>copado__User_Story__c</fullName>

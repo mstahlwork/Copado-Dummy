@@ -12,10 +12,6 @@
         <label><!-- Status --></label>
         <name>copado__Status__c</name>
         <picklistValues>
-            <masterLabel>Back Promoted</masterLabel>
-            <translation><!-- Back Promoted --></translation>
-        </picklistValues>
-        <picklistValues>
             <masterLabel>Conflict Resolved</masterLabel>
             <translation><!-- Conflict Resolved --></translation>
         </picklistValues>

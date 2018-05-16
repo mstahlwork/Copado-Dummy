@@ -49,14 +49,6 @@ WARNING: Credits consumption will apply as a regular deployment since resource-w
         <relationshipLabel><!-- Steps --></relationshipLabel>
     </fields>
     <fields>
-        <label><!-- Manual Task Notified --></label>
-        <name>copado__Manual_Task_Notified__c</name>
-    </fields>
-    <fields>
-        <label><!-- Notify Task Owner --></label>
-        <name>copado__Notify_Task_Owner__c</name>
-    </fields>
-    <fields>
         <label><!-- Order --></label>
         <name>copado__Order__c</name>
     </fields>

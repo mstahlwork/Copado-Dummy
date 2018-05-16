@@ -8,10 +8,6 @@
         <label><!-- CI Tool --></label>
         <name>copado__CI_Tool__c</name>
         <picklistValues>
-            <masterLabel>Bamboo</masterLabel>
-            <translation><!-- Bamboo --></translation>
-        </picklistValues>
-        <picklistValues>
             <masterLabel>Jenkins</masterLabel>
             <translation><!-- Jenkins --></translation>
         </picklistValues>

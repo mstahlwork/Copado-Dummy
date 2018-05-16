@@ -21,11 +21,6 @@ Check it to manage the Test Runs in this group manually, then go to a Test Run l
         <name>copado__Manage_Test_Runs_manually__c</name>
     </fields>
     <fields>
-        <help><!-- If checked, tests runs will be executed in sequence, one after another, instead of doing it in parallel --></help>
-        <label><!-- Run Sequentially --></label>
-        <name>copado__Run_Sequentially__c</name>
-    </fields>
-    <fields>
         <help><!-- All tests runs belonging to this Test Group will use these Selenium Settings. --></help>
         <label><!-- Selenium Settings --></label>
         <name>copado__Selenium_Settings__c</name>

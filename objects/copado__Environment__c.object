@@ -129,16 +129,6 @@
         <unique>false</unique>
     </fields>
     <fields>
-        <fullName>copado__Index_Back_Promotion_metadata__c</fullName>
-        <defaultValue>false</defaultValue>
-        <deprecated>false</deprecated>
-        <externalId>false</externalId>
-        <inlineHelpText>If enabled, when a Back Promotion is completed and contains Metadata found in User Stories in the destination Environment, the status of the User Story Metadata records of these User Stories will be updated to &quot;Back Promoted&quot;.</inlineHelpText>
-        <label>Index Back Promotion metadata</label>
-        <trackTrending>false</trackTrending>
-        <type>Checkbox</type>
-    </fields>
-    <fields>
         <fullName>copado__Last_Compliance_Scan_Date__c</fullName>
         <deprecated>false</deprecated>
         <externalId>false</externalId>
@@ -227,11 +217,6 @@
                     <fullName>Sandbox</fullName>
                     <default>false</default>
                     <label>Sandbox</label>
-                </value>
-                <value>
-                    <fullName>Scratch Org</fullName>
-                    <default>false</default>
-                    <label>Scratch Org</label>
                 </value>
             </valueSetDefinition>
         </valueSet>

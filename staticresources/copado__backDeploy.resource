@@ -101,7 +101,6 @@ backDeploy.getFlowStepCoordinates = function() {
 backDeploy.getsetCoordinates = function() {
     console.log('Setting coordinates...');
     var __coordinates__ = backDeploy.getFlowStepCoordinates();
-
     if (__coordinates__ && __coordinates__.length != 0) {
         var tmp = backDeploy.splitCoordinates(__coordinates__);
         for (var i = 0; i < tmp.length; i++) {
@@ -114,101 +113,8 @@ backDeploy.getsetCoordinates = function() {
             }
         }
     }
-    backDeploy.parseCoordinates(__coordinates__);
     backDeploy.drawEnvironmentConnections();
 };
-/*
-MY: Auto calculate env location
-Parsing existing coordinates to calculate missing step or steps
-*/
-backDeploy.parseCoordinates = function(coordinates){
-	var parsedEnvs = [];
-	var envCoordinates = {};
-	if (coordinates && coordinates.length != 0) {
-        var tmp = coordinates.split(',')
-        for (var i = 0; i < tmp.length; i++) {
-            var tmp2 = tmp[i].split('-');
-			var envId = tmp2[0].split('_')[1];
-			parsedEnvs.push(envId)
-            var leftPX = parseInt(tmp2[1]) > 0 ? tmp2[1] : 0;
-            var topPX = parseInt(tmp2[2]) > 0 ? tmp2[2] : 0;
-            var temp = {};
-            temp.left = leftPX;
-            temp.top = topPX;
-            envCoordinates[envId] = temp;
-        }
-        backDeploy.getScratchEnvironments(parsedEnvs,envCoordinates);
-    }
-};
-/*
-MY: Auto calculate env location
-Creating map of steps by using destination env id as a key and source environments as a value
-*/
-backDeploy.getScratchEnvironments = function(parsedEnvs,envCoordinates){
-	var querySteps = "'"+parsedEnvs.join("','")+"'";
-	var sourceMap = {};
-	var destinationMaps = [];
-	// Query deployment flow steps to get all environment related information to be used in the calculation
-	var q = 'Select Id, Name , _NS_Source_Environment__c, _NS_Source_environment__r._NS_Type__c, _NS_Destination_Environment__c, _NS_Destination_environment__r._NS_Type__c From _NS_Deployment_Flow_Step__c where _NS_Deployment_Flow__c = \''+backDeploy.data.flowId+'\' AND _NS_Source_environment__c IN (' + querySteps + ')';
-	q = q.replace(/_NS_/g, backDeploy.config.ns);
-    var result = sforce.connection.query(q);
-    var records = result.getArray("records");
-    var destinationMap = {};
-    var n = 0;
-    //Creating map of steps by using destination env id as a key and source environments as a value
-    for (var i = 0; i < records.length ; i++) {
-        if(records[i].Source_Environment__r)
-            sourceMap[records[i].Id] = records[i].Source_Environment__r[backDeploy.config.ns+'Type__c'];
-		if(destinationMap.hasOwnProperty(records[i].Destination_Environment__c)){
-			var temp = destinationMap[records[i].Destination_Environment__c];
-			temp.push(records[i].Id);
-			destinationMap[records[i].Destination_Environment__c] = temp;
-
-		} else {
-			var temp = [];
-			temp.push(records[i].Id);
-			destinationMap[records[i].Destination_Environment__c] = temp;
-		}
-		destinationMaps[n] = destinationMap;
-		n++;
-    }
-    // Process map to draw new environment boxes in the proper place
-    for (var i = destinationMaps.length - 1; i >= 0; i--) {
-        $copado.each(destinationMaps[i],function(key,value){
-            if(key && value)
-            backDeploy.findEnvConnection(key,destinationMaps[i][key],envCoordinates)
-        });
-    }
-
-
-};
-/*
-MY: Auto calculate env location
-Calculate left and top of latest environment that points to given destination Id and put new environment box underneath it.
-*/
-backDeploy.findEnvConnection = function(destinationId,lowerEnvArray,envCoordinates){
-	var maxTop = 0;
-	var setLeft = 0;
-	var newBoxes = [];
-	copadoApp.envConnections.find(function(elem){
-	    // Coordinate not found so set calculated left and top
-	    if(lowerEnvArray && elem.toEnvId === destinationId && lowerEnvArray.indexOf(elem.flowStepId) <= -1){
-	        console.log('couldnt find in the coordinates');
-	        newBoxes.push( elem );
-	    } else if(elem && elem.toEnvId === destinationId){
-	    	var tempCo = envCoordinates[elem.fromEnvId];
-			if(tempCo && parseInt(tempCo.top) > maxTop){
-				maxTop = parseInt(tempCo.top);
-				setLeft = parseInt(tempCo.left);
-			}
-	    }
-	});
-	if(newBoxes && newBoxes.length !== 0) {
-	    for (var k = 0; k < newBoxes.length ; k++) {
-            backDeploy.getsetLocations('wrapper_'+newBoxes[k].fromEnvId,setLeft,maxTop+75);
-        }
-	}
-}
 backDeploy.initialiseDraggable = function() {
     console.log('Initialising draggable...');
     if (copadoApp.envConnections.length > 0) {
@@ -274,6 +180,7 @@ backDeploy.drawSVGlines = function(leftNode, rightNode, destinationNode, envConn
     });
 };
 backDeploy.drawEnvironmentConnections = function() {
+    console.log('Drawing environment connections...', copadoApp.envConnections);
     for (i = 0; i < copadoApp.envConnections.length; i++) {
         backDeploy.drawEnvironmentConnection(copadoApp.envConnections[i].fromEnvId, copadoApp.envConnections[i].toEnvId, copadoApp.envConnections[i]);
     }
@@ -681,6 +588,7 @@ backDeploy.refreshStepData = function(callback) {
         copadoApp.data.flowId,
         function(result, event) {
             if (event.status) {
+                console.log("backDeploy.refreshStepData() done", result);
                 backDeploy.config.map = result;
             } else if (event.status === 'exception') {
                 console.error("backDeploy.refreshStepData() err", result);
@@ -923,11 +831,8 @@ backDeploy.buildEnvBox = function(envName, envId, style, branch, env, flowStepId
         "</div>" +
         "</div>";
     } else {
-        s = "<div style='" + style + "'class='jsEnvBoxWrapper' id='wrapper_" + envId + "' data-flowStepId='"+flowStepId+"' data-floaters='' data-branch='" + branch + "'>" ;
-            if(env.orgType == 'Scratch Org'){
-                s += "<img id='typeImage' src='https://lh3.googleusercontent.com/-SKXUk6eYz2I/WmDRX0UjIPI/AAAAAAAAAW8/dCvjQ4cQWBYJldC9HaVZSSozqWpU32PegCK8BGAs/s0/2018-01-18.png' style='width: 62px;position:  absolute;bottom: 10px;right: 159px; z-index: 100;'>";
-            }
-            s += "<div id='box_" + envId + "' data-branch='" + branch + "' data-boxId='' class='envBox' style='background-color:#f4f6f9 !important; border-color:#0070d2;margin-left:5px !important'>" +
+        s = "<div style='" + style + "'class='jsEnvBoxWrapper' id='wrapper_" + envId + "' data-flowStepId='"+flowStepId+"' data-floaters='' data-branch='" + branch + "'>" +
+            "<div id='box_" + envId + "' data-branch='" + branch + "' data-boxId='' class='envBox' style='background-color:#f4f6f9 !important; border-color:#0070d2;margin-left:5px !important'>" +
             "<div style='float: left;height: 100%;text-align: center;background-color:#f4f6f9;'>" +
             "<input type='button' onclick='backDeploy.recalculateSingleBranch(this);' data-branch='" + branch + "' data-parentSelector='box_" + envId + "' class='resyncEnv' value='↺'' title='Recalculate this branch'>" +
             "</div>" +
@@ -937,10 +842,8 @@ backDeploy.buildEnvBox = function(envName, envId, style, branch, env, flowStepId
             "</h3>"+
             "<div>";
         if (envId != copadoApp.finalDestination) {
-            s += "<button type='button' style='border-top-right-radius:.44em' onclick='openModal(this);' title='Promote...' class='btnPromotion paper-raise slds-button btn_" + envId + "_promotion' data-envId='" + envId + "' data-type='merge' data-flowStepId='"+flowStepId+"' data-flowId='" + backDeploy.data.flowId + "'>" + backDeploy.SVG_ARROW_RIGHT + "</button>";
-            if(env.orgType != 'Scratch Org'){
-                s += "<button type='button' style='border-bottom-right-radius:.44em' onclick='openModal(this);' title='Back Promote...' class='btnPromotion slds-button paper-raise btn_" + envId + "_promotion' data-envId='" + envId + "' data-type='pull' data-flowStepId='"+flowStepId+"' data-flowId='" + backDeploy.data.flowId + "'>" + backDeploy.SVG_ARROW_LEFT + "</button>";
-            }
+            s += "<button type='button' style='border-top-right-radius:.44em' onclick='openModal(this);' title='Promote...' class='btnPromotion paper-raise slds-button btn_" + envId + "_promotion' data-envId='" + envId + "' data-type='merge' data-flowStepId='"+flowStepId+"' data-flowId='" + backDeploy.data.flowId + "'>" + backDeploy.SVG_ARROW_RIGHT + "</button>" +
+                "<button type='button' style='border-bottom-right-radius:.44em' onclick='openModal(this);' title='Back Promote...' class='btnPromotion slds-button paper-raise btn_" + envId + "_promotion' data-envId='" + envId + "' data-type='pull' data-flowStepId='"+flowStepId+"' data-flowId='" + backDeploy.data.flowId + "'>" + backDeploy.SVG_ARROW_LEFT + "</button>";
 
         }
         s += "</div>" +
@@ -998,6 +901,7 @@ backDeploy.setBoxStates = function() {
             //If the step source and destination are not in sync change bg-color of the action buttons on the env box.
             var color='transparent', msg='', isUnsynced=false;
             if (isMergeOrPull) {
+                console.debug("-M", stepDetail.Name, stepDetail.Branch__c, Sync_Merge_State);
                 if(Sync_Merge_State=='Needs recalculating') { color = 'yellow'; msg=Sync_Merge_State; }
                 else if(Sync_Merge_State=='Validated') { color = 'green'; isUnsynced=true; }
                 else if(Sync_Merge_State=='Validation errors') { color = 'red'; isUnsynced=true; }
@@ -1005,6 +909,7 @@ backDeploy.setBoxStates = function() {
                 if(Sync_Pull_State=='Needs recalculating') { color = 'yellow'; msg=Sync_Pull_State; }
                 else if(Sync_Pull_State=='Validated') { color = 'green'; isUnsynced=true; }
                 else if(Sync_Pull_State=='Validation errors') { color = 'red'; isUnsynced=true; }
+                console.debug("-P", stepDetail.Name, stepDetail.Branch__c, Sync_Pull_State);
             }
             if(isUnsynced)
                 buttonElt.addClass('btnAheadOrBehind');
@@ -1153,7 +1058,6 @@ backDeploy.queryFlowSteps = function() {
             return;
         }
         backDeploy.data.env2branchMap[r[NS + 'Source_Environment__c']] = r[NS + 'Branch__c'];
-
         copadoApp.envConnections.push({
             flowStepId: r.Id,
             fromEnvId: r[NS + 'Source_Environment__c'],
@@ -1162,10 +1066,8 @@ backDeploy.queryFlowSteps = function() {
             toEnvName: r[NS + 'Destination_Environment__r'].Name,
             branch: r[NS + 'Branch__c'],
             testLevel: r[NS + 'Test_Level__c'],
-            autoMergeDeploy: r[NS + 'Automatically_Merge_and_Deploy__c'],
-            orgType : r[NS + 'Source_Environment__r'][backDeploy.config.ns+'Type__c']
+            autoMergeDeploy: r[NS + 'Automatically_Merge_and_Deploy__c']
         });
-
         fromIds.push(r[NS + 'Source_Environment__c']);
         toIds.push(r[NS + 'Destination_Environment__c']);
         backDeploy.data.mapStepIdEnvironments[r.Id] = r[NS + 'Source_Environment__c'] + '-' + r[NS + 'Destination_Environment__c'];
@@ -1215,8 +1117,7 @@ backDeploy.addToEnvironmentArray = function(envConns) {
             flowStepId: conn.flowStepId,
             branch: conn.branch,
             testLevel: conn.testLevel,
-            autoMergeDeploy: conn.autoMergeDeploy,
-            orgType: conn.orgType
+            autoMergeDeploy: conn.autoMergeDeploy
         };
         var tmpTo = null;
         if (tmpFrom.toEnvId && tmpFrom.toEnvId !== null || tmpFrom.toEnvId !== '') {
@@ -1244,7 +1145,6 @@ backDeploy.addToEnvironmentArray = function(envConns) {
             testLevel: map[v].testLevel,
             autoMergeDeploy: map[v].autoMergeDeploy,
             _tto: map[v]._tto,
-            orgType: map[v].orgType
         });
     }
     return copadoApp.environments;
@@ -1301,7 +1201,7 @@ backDeploy.reinitiateCanvas = function() {
     backDeploy.config.canvas = $copado('#boxCanvas').connectSVG();
     backDeploy.getsetCoordinates();
 };
-
+// Branch management dialog labels and size spans changes to display correct label with correct data size
 backDeploy.assignCBMTabLabels = function(elem, newText){
     elem.text(newText);
 }
@@ -1309,25 +1209,21 @@ backDeploy.assignCBMTabLabels = function(elem, newText){
 // By using following function we parse the branch management calculatation result and display differences in JQX grid
 // @see backDeploy initFileDifferences
 backDeploy.calculateFileDifferences = function(jsonObject,conf){
-	var fileDiffSize = 0;
-	var autoResolveSize = 0;
-	console.log('backDeploy:::calculateFileDifferences',jsonObject,conf);
-	backDeploy.data.gridConflictedItems = [];
-	try{
+   var fileDiffSize = 0;
+   var autoResolveSize = 0;
+   backDeploy.data.gridConflictedItems = [];
+   try{
         for(var i=0; i < jsonObject.length; i++){
             var item = jsonObject[i];
             console.log('backDeploy.uiData.stepId',backDeploy.uiData.stepId);
             if(item["id"] === backDeploy.uiData.stepId){
-                console.info("item ===>",item["id"],item);
                 console.log('backDeploy.calculateFileDifference:::backDeploy.uiData.type',backDeploy.uiData.type);
 
                 if( backDeploy.uiData.type === "pull"){
                     var commitsBehindNumber = item["commitsBehind"];
                     var commitsBehindLabel = $copado('#commBehind');
                     backDeploy.assignCBMTabLabels(commitsBehindLabel,commitsBehindNumber);
-
                     $copado('[Id$=commitBehindNum]').val(commitsBehindNumber);
-
                     backDeploy.data.gridItems = item["filesMergedBehind"];
                     fileDiffSize = backDeploy.data.gridItems.length;
                     var fileDiffLabel = $copado('#filediff');
@@ -1357,9 +1253,7 @@ backDeploy.calculateFileDifferences = function(jsonObject,conf){
                     var commitsAheadNumber = item["commitsAhead"];
                     var commitsAheadLabel = $copado('#commAhead');
                     backDeploy.assignCBMTabLabels(commitsAheadLabel,commitsAheadNumber);
-
                     $copado('[Id$=commitAheadNum]').val(commitsAheadNumber);
-
                     backDeploy.data.gridItems = item["filesMergedAhead"];
                     var elem = item["filesMergedConflictAhead"];
                     if(backDeploy.data.gridItems){
@@ -1389,10 +1283,9 @@ backDeploy.calculateFileDifferences = function(jsonObject,conf){
                 }
             }
         }
-	} catch(e){
-	    console.error(e);
-    }
-	console.debug("fileSizes",fileDiffSize,autoResolveSize);
+   } catch(e){
+    console.error(e);
+   }
 };
 
 backDeploy.filterGridMetadata = function (jsonArray, jsonField, filter) {
@@ -1402,7 +1295,7 @@ backDeploy.filterGridMetadata = function (jsonArray, jsonField, filter) {
 };
 
 
-backDeploy.initFileDifferences = function(conf,initF) {
+backDeploy.initFileDifferences = function(conf, initF) {
     if(initF) initF();
     var jsonObject = JSON.parse(backDeploy.uiData.flowResult)
     backDeploy.calculateFileDifferences(jsonObject,conf);

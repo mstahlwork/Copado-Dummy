@@ -81,11 +81,6 @@
                     <default>false</default>
                     <label>Jenkins</label>
                 </value>
-                <value>
-                    <fullName>Bamboo</fullName>
-                    <default>false</default>
-                    <label>Bamboo</label>
-                </value>
             </valueSetDefinition>
         </valueSet>
     </fields>

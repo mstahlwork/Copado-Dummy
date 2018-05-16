@@ -173,6 +173,8 @@
         <excludeButtons>New</excludeButtons>
         <fields>NAME</fields>
         <fields>CREATED_DATE</fields>
+        <fields>copado__Score__c</fields>
+        <fields>copado__Rules_Violated__c</fields>
         <relatedList>copado__Static_Code_Analysis_Result__c.copado__Org_Credential__c</relatedList>
         <sortField>CREATED_DATE</sortField>
         <sortOrder>Desc</sortOrder>

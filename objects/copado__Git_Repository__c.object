@@ -123,11 +123,6 @@
             <isRequired>false</isRequired>
         </availableFields>
         <availableFields>
-            <field>copado__Tag_Base_URL__c</field>
-            <isFieldManaged>false</isFieldManaged>
-            <isRequired>false</isRequired>
-        </availableFields>
-        <availableFields>
             <field>copado__Username__c</field>
             <isFieldManaged>false</isFieldManaged>
             <isRequired>false</isRequired>
@@ -188,11 +183,6 @@
             <isRequired>false</isRequired>
         </availableFields>
         <availableFields>
-            <field>copado__Password__c</field>
-            <isFieldManaged>false</isFieldManaged>
-            <isRequired>false</isRequired>
-        </availableFields>
-        <availableFields>
             <field>SystemModstamp</field>
             <isFieldManaged>false</isFieldManaged>
             <isRequired>false</isRequired>
@@ -228,11 +218,6 @@
             <isFieldManaged>false</isFieldManaged>
             <isRequired>false</isRequired>
         </displayedFields>
-        <displayedFields>
-            <field>copado__Tag_Base_URL__c</field>
-            <isFieldManaged>false</isFieldManaged>
-            <isRequired>false</isRequired>
-        </displayedFields>
         <label>Custom Fields</label>
     </fieldSets>
     <fields>
@@ -264,9 +249,7 @@
     <fields>
         <fullName>copado__Git_Provider__c</fullName>
         <deprecated>false</deprecated>
-        <description>Copado generates specific links to the Git Repository, its branches and commits based on the selected Git Provider.</description>
         <externalId>false</externalId>
-        <inlineHelpText>Copado generates specific links to the Git Repository, its branches and commits based on the selected Git Provider.</inlineHelpText>
         <label>Git Provider</label>
         <required>false</required>
         <trackTrending>false</trackTrending>
@@ -327,23 +310,9 @@
         <unique>false</unique>
     </fields>
     <fields>
-        <fullName>copado__Tag_Base_URL__c</fullName>
-        <deprecated>false</deprecated>
-        <externalId>false</externalId>
-        <inlineHelpText>Base URL of your Repository, e.g.: https://github.com/[COMPANY]/[REPOSITORY]/releases/tag/</inlineHelpText>
-        <label>Tag Base URL</label>
-        <length>150</length>
-        <required>false</required>
-        <trackTrending>false</trackTrending>
-        <type>Text</type>
-        <unique>false</unique>
-    </fields>
-    <fields>
         <fullName>copado__URI__c</fullName>
         <deprecated>false</deprecated>
-        <description>HTTPS or SSH URL to connect to the Git Repository.</description>
         <externalId>false</externalId>
-        <inlineHelpText>HTTPS or SSH URL to connect to the Git Repository.</inlineHelpText>
         <label>URI</label>
         <length>255</length>
         <required>false</required>

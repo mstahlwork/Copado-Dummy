@@ -19,7 +19,6 @@
         <name>copado__Commit_Base_URL__c</name>
     </fields>
     <fields>
-        <help><!-- Copado generates specific links to the Git Repository, its branches and commits based on the selected Git Provider. --></help>
         <label><!-- Git Provider --></label>
         <name>copado__Git_Provider__c</name>
         <picklistValues>
@@ -53,12 +52,6 @@
         <name>copado__Pull_Request_Base_URL__c</name>
     </fields>
     <fields>
-        <help><!-- Base URL of your Repository, e.g.: https://github.com/[COMPANY]/[REPOSITORY]/releases/tag/ --></help>
-        <label><!-- Tag Base URL --></label>
-        <name>copado__Tag_Base_URL__c</name>
-    </fields>
-    <fields>
-        <help><!-- HTTPS or SSH URL to connect to the Git Repository. --></help>
         <label><!-- URI --></label>
         <name>copado__URI__c</name>
     </fields>

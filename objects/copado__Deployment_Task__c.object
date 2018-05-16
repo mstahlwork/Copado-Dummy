@@ -55,20 +55,6 @@
     <enableStreamingApi>true</enableStreamingApi>
     <externalSharingModel>ControlledByParent</externalSharingModel>
     <fields>
-        <fullName>copado__Notify_Task_Owner__c</fullName>
-        <defaultValue>&apos;None&apos;</defaultValue>
-        <deprecated>false</deprecated>
-        <externalId>false</externalId>
-        <label>Notify Task Owner</label>
-        <required>false</required>
-        <trackTrending>false</trackTrending>
-        <type>Picklist</type>
-        <valueSet>
-            <restricted>true</restricted>
-            <valueSetName>copado__Notify_Task_Owner_Values</valueSetName>
-        </valueSet>
-    </fields>
-    <fields>
         <fullName>copado__Order__c</fullName>
         <defaultValue>1</defaultValue>
         <deprecated>false</deprecated>

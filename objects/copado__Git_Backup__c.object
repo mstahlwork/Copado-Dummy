@@ -57,11 +57,6 @@
     <fieldSets>
         <fullName>copado__Commit_Files_Information</fullName>
         <availableFields>
-            <field>copado__Compliance_Status__c</field>
-            <isFieldManaged>false</isFieldManaged>
-            <isRequired>false</isRequired>
-        </availableFields>
-        <availableFields>
             <field>CreatedById</field>
             <isFieldManaged>false</isFieldManaged>
             <isRequired>false</isRequired>
@@ -92,6 +87,11 @@
             <isRequired>false</isRequired>
         </availableFields>
         <availableFields>
+            <field>LastActivityDate</field>
+            <isFieldManaged>false</isFieldManaged>
+            <isRequired>false</isRequired>
+        </availableFields>
+        <availableFields>
             <field>LastModifiedById</field>
             <isFieldManaged>false</isFieldManaged>
             <isRequired>false</isRequired>
@@ -102,12 +102,17 @@
             <isRequired>false</isRequired>
         </availableFields>
         <availableFields>
-            <field>copado__Last_Backup__c</field>
+            <field>LastReferencedDate</field>
             <isFieldManaged>false</isFieldManaged>
             <isRequired>false</isRequired>
         </availableFields>
         <availableFields>
-            <field>copado__Last_Compliance_Scan_Date__c</field>
+            <field>LastViewedDate</field>
+            <isFieldManaged>false</isFieldManaged>
+            <isRequired>false</isRequired>
+        </availableFields>
+        <availableFields>
+            <field>copado__Last_Backup__c</field>
             <isFieldManaged>false</isFieldManaged>
             <isRequired>false</isRequired>
         </availableFields>
@@ -182,6 +187,11 @@
             <isRequired>false</isRequired>
         </availableFields>
         <availableFields>
+            <field>LastActivityDate</field>
+            <isFieldManaged>false</isFieldManaged>
+            <isRequired>false</isRequired>
+        </availableFields>
+        <availableFields>
             <field>LastModifiedById</field>
             <isFieldManaged>false</isFieldManaged>
             <isRequired>false</isRequired>
@@ -252,11 +262,6 @@
             <isRequired>false</isRequired>
         </availableFields>
         <availableFields>
-            <field>copado__Compliance_Status__c</field>
-            <isFieldManaged>false</isFieldManaged>
-            <isRequired>false</isRequired>
-        </availableFields>
-        <availableFields>
             <field>CreatedById</field>
             <isFieldManaged>false</isFieldManaged>
             <isRequired>false</isRequired>
@@ -292,6 +297,11 @@
             <isRequired>false</isRequired>
         </availableFields>
         <availableFields>
+            <field>LastActivityDate</field>
+            <isFieldManaged>false</isFieldManaged>
+            <isRequired>false</isRequired>
+        </availableFields>
+        <availableFields>
             <field>LastModifiedById</field>
             <isFieldManaged>false</isFieldManaged>
             <isRequired>false</isRequired>
@@ -302,12 +312,17 @@
             <isRequired>false</isRequired>
         </availableFields>
         <availableFields>
-            <field>copado__Last_Backup__c</field>
+            <field>LastReferencedDate</field>
             <isFieldManaged>false</isFieldManaged>
             <isRequired>false</isRequired>
         </availableFields>
         <availableFields>
-            <field>copado__Last_Compliance_Scan_Date__c</field>
+            <field>LastViewedDate</field>
+            <isFieldManaged>false</isFieldManaged>
+            <isRequired>false</isRequired>
+        </availableFields>
+        <availableFields>
+            <field>copado__Last_Backup__c</field>
             <isFieldManaged>false</isFieldManaged>
             <isRequired>false</isRequired>
         </availableFields>
@@ -343,9 +358,8 @@
         <fullName>copado__Branch__c</fullName>
         <defaultValue>&quot;master&quot;</defaultValue>
         <deprecated>false</deprecated>
-        <description>Branch of the selected Git Repository (e.g. master). Snapshots and Commits done in the Git Snapshot will affect the specified branch.</description>
         <externalId>false</externalId>
-        <inlineHelpText>Branch of the selected Git Repository (e.g. master). Snapshots and Commits done in the Git Snapshot will affect the specified branch.</inlineHelpText>
+        <inlineHelpText>the branch in the selected git repository. Usually &quot;master&quot;.</inlineHelpText>
         <label>Branch</label>
         <length>255</length>
         <required>false</required>
@@ -356,9 +370,7 @@
     <fields>
         <fullName>copado__Compliance_Status__c</fullName>
         <deprecated>false</deprecated>
-        <description>Status of the most recent Compliance Scan of the Branch specified in the Git Snapshot.</description>
         <externalId>false</externalId>
-        <inlineHelpText>Status of the most recent Compliance Scan of the Branch specified in the Git Snapshot.</inlineHelpText>
         <label>Compliance Status</label>
         <length>255</length>
         <required>false</required>
@@ -369,9 +381,7 @@
     <fields>
         <fullName>copado__Frequency__c</fullName>
         <deprecated>false</deprecated>
-        <description>Schedule automatic metadata backups. With the frequency set, Copado will automatically commit the metadata components of the Org into the Branch.</description>
         <externalId>false</externalId>
-        <inlineHelpText>Schedule automatic metadata backups. With the frequency set, Copado will automatically commit the metadata components of the Org into the Branch.</inlineHelpText>
         <label>Frequency</label>
         <required>false</required>
         <trackTrending>false</trackTrending>
@@ -405,12 +415,9 @@
     <fields>
         <fullName>copado__Git_Repository__c</fullName>
         <deprecated>false</deprecated>
-        <description>Git Repository linked to the Git Snapshot. The specified Branch must exist in the Git Repository.</description>
         <externalId>false</externalId>
-        <inlineHelpText>Git Repository linked to the Git Snapshot. The specified Branch must exist in the Git Repository.</inlineHelpText>
         <label>Git Repository</label>
         <referenceTo>copado__Git_Repository__c</referenceTo>
-        <relationshipLabel>Git Snapshots</relationshipLabel>
         <relationshipName>Git_Backups</relationshipName>
         <relationshipOrder>0</relationshipOrder>
         <reparentableMasterDetail>false</reparentableMasterDetail>
@@ -450,9 +457,7 @@
     <fields>
         <fullName>copado__Last_Backup__c</fullName>
         <deprecated>false</deprecated>
-        <description>Date of the last Snapshot committed into the Branch.</description>
         <externalId>false</externalId>
-        <inlineHelpText>Date of the last Snapshot committed into the Branch.</inlineHelpText>
         <label>Last Snapshot</label>
         <required>false</required>
         <trackTrending>false</trackTrending>
@@ -461,9 +466,7 @@
     <fields>
         <fullName>copado__Last_Compliance_Scan_Date__c</fullName>
         <deprecated>false</deprecated>
-        <description>Date of the last Compliance Scan of the Branch specified in the Git Snapshot.</description>
         <externalId>false</externalId>
-        <inlineHelpText>Date of the last Compliance Scan of the Branch specified in the Git Snapshot.</inlineHelpText>
         <label>Last Compliance Scan Date</label>
         <required>false</required>
         <trackTrending>false</trackTrending>
@@ -483,9 +486,7 @@
     <fields>
         <fullName>copado__Org__c</fullName>
         <deprecated>false</deprecated>
-        <description>A validated Org Credential used to retrieve the metadata that will be committed to the specified Branch in the Git Snapshot.</description>
         <externalId>false</externalId>
-        <inlineHelpText>A validated Org Credential used to retrieve the metadata that will be committed to the specified Branch in the Git Snapshot.</inlineHelpText>
         <label>Org Credential</label>
         <referenceTo>copado__Org__c</referenceTo>
         <relationshipLabel>Git Snapshots</relationshipLabel>
@@ -499,24 +500,9 @@
     <fields>
         <fullName>copado__View_in_Git__c</fullName>
         <deprecated>false</deprecated>
-        <description>Link to the branch in your Git Repository.</description>
+        <description>Link to the branch in your Git Repository&apos;s end.</description>
         <externalId>false</externalId>
-        <formula>HYPERLINK(
-	IF(
-		AND(NOT(ISNULL(copado__Git_Repository__r.copado__Branch_Base_URL__c)), copado__Git_Repository__r.copado__Branch_Base_URL__c != &apos;&apos;), 
-		IF(
-			AND(NOT(ISPICKVAL(copado__Git_Repository__r.copado__Git_Provider__c,&apos;&apos;)),NOT(ISPICKVAL(copado__Git_Repository__r.copado__Git_Provider__c, &apos;Others&apos;))),
-			copado__Git_Repository__r.copado__Branch_Base_URL__c +  copado__Branch__c,
-			IF(
-				CONTAINS(copado__Git_Repository__r.copado__Branch_Base_URL__c,&apos;[BRANCH_NAME]&apos;),
-				SUBSTITUTE(copado__Git_Repository__r.copado__Branch_Base_URL__c,&apos;[BRANCH_NAME]&apos;,copado__Branch__c),
-				copado__Git_Repository__r.copado__Branch_Base_URL__c + copado__Branch__c
-			)
-		),
-	&apos;&apos;), 
-	copado__Branch__c
-)</formula>
-        <inlineHelpText>Link to the branch in your Git Repository.</inlineHelpText>
+        <formula>HYPERLINK(IF(AND(NOT(ISNULL(copado__Git_Repository__r.copado__Branch_Base_URL__c)), copado__Git_Repository__r.copado__Branch_Base_URL__c != &apos;&apos;), copado__Git_Repository__r.copado__Branch_Base_URL__c + copado__Branch__c,&apos;&apos;), copado__Branch__c)</formula>
         <label>View in Git</label>
         <required>false</required>
         <trackTrending>false</trackTrending>
